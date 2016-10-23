@@ -33,7 +33,7 @@ export default class Todo extends Component {
   }
 
   addNewTodo(item){
-    this.state.todos.push({text: item, id: new Date().getTime() });
+    this.state.todos.push({text: item, isDone: false,  id: new Date().getTime() });
     this.setState({
       timestamp: new Date().getTime()
     });
@@ -46,7 +46,8 @@ export default class Todo extends Component {
     let idx = todos.indexOf(todoToChange);
     todos[idx]= {
       text: item.text,
-      id: item.id
+      id: item.id,
+      isDone: item.isDone
     }
     
     this.setState({
@@ -71,10 +72,21 @@ export default class Todo extends Component {
     })
   }
 
+  clearDone(){
+    let todos = this.state.todos;
+    let incomplete = _.filter(todos, {isDone: false});
+
+    this.setState({
+      todos: incomplete
+    })
+  }
+
   render(){
     return (
       <div className="todo-component">
         <AddTodo updateTodo={this.addNewTodo.bind(this)}  />
+        
+        <button type="button" onClick={this.clearDone.bind(this)} className="btn btn-default">clear done</button>
 
         <List>
           {this.state.todos.map(function(item){
