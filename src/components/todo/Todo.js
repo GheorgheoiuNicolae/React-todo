@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 
-// import MobileTearSheet from '../../../MobileTearSheet';
-import {List} from 'material-ui/List';
+import { List } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 
 import TodoItem from './TodoItem/TodoItem';
@@ -26,10 +25,6 @@ export default class Todo extends Component {
         id: 3
       }]
     })
-  }
-
-  componentDidMount() {
-    console.log('componentDidMount todo.js', this.state);
   }
 
   addNewTodo(item){
@@ -88,7 +83,6 @@ export default class Todo extends Component {
 
         <List>
           {this.state.todos.map(function(item){
-            console.log('item', item);
             return (
               <div key={item.id} className="clearfix">
                 <TodoItem 

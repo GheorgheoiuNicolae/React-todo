@@ -12,9 +12,6 @@ export default class TodoItem extends Component {
       isDone: false
     })
   }
-  componentDidMount() {
-    // console.log('componentDidMount for TodoItem', this)
-  }
 
   editTodo(){
     var temToggleState = !this.state.showEdit;
