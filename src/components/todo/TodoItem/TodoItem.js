@@ -27,8 +27,7 @@ export default class TodoItem extends Component {
     var text = e.target.value;
     let itemToSave = {
       id: this.props.todoId,
-      text: text,
-      isDone: false
+      text: text
     }
     this.props.edit(itemToSave)
   }

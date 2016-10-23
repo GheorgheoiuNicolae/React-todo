@@ -66,20 +66,18 @@ export default class Todo extends Component {
       id: todoToChange.id,
       text: todoToChange.text
     }
-    
     this.setState({
       todos: todos
     })
   }
 
   clearDone(){
-    let todos = this.state.todos;
-    let incomplete = _.filter(todos, {isDone: false});
-
+    let incomplete = _.filter(this.state.todos, {isDone: false});
     this.setState({
       todos: incomplete
     })
   }
+
 
   render(){
     return (
