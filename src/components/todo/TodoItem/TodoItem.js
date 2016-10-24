@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
 export default class TodoItem extends Component {
-  
+
   componentWillMount() {
     this.setState({
       showEdit: false,
@@ -32,18 +32,18 @@ export default class TodoItem extends Component {
   toggleTodoState(){
     this.props.changeStatus(this.props.todoId)
   }
-  
+
 
   render(){
     return (
       <ListItem className="clearfix">
-        { this.state.showEdit ? 
-         <div className="inputWrap clearfix">
+        { this.state.showEdit ?
+         <div className="inputWrap">
             <TextField className="" hintText="thing to do" value={this.props.text} onChange={this.handleChange.bind(this)} />
             <RaisedButton className="" label="Save" onClick={this.editTodo.bind(this)} />
          </div>
           :
-          <div className="inputData clearfix">
+          <div className="inputData">
             <input type="checkbox" onChange={this.toggleTodoState.bind(this)} checked={ this.props.isDone || this.state.isDone} />
             <span className="">{this.props.text} </span>
             <RaisedButton className="" label="edit" onClick={this.editTodo.bind(this)} />

@@ -6,24 +6,20 @@ import Divider from 'material-ui/Divider';
 
 import TodoItem from './TodoItem/TodoItem';
 import AddTodo from './AddTodo/AddTodo';
+import todoStore from '../../stores/TodoStore';
+import * as todoActions from '../../actions/actions';
 
 export default class Todo extends Component {
 
   componentWillMount() {
     this.setState({
-      todos: [{
-        text: 'Buy milk',
-        isDone: false,
-        id: 1
-      }, {
-        text: 'Buy meat!',
-        isDone: false,
-        id: 2
-      }, {
-        text: 'Buy something else!',
-        isDone: true,
-        id: 3
-      }]
+      todos: todoStore.getAll()
+    });
+
+    todoStore.on("change", () => {
+      this.setState({
+        todos: todoStore.getAll()
+      });
     })
   }
 
@@ -44,7 +40,7 @@ export default class Todo extends Component {
       id: item.id,
       isDone: item.isDone
     }
-    
+
     this.setState({
       todos: todos
     })
@@ -73,21 +69,25 @@ export default class Todo extends Component {
     })
   }
 
+  createRandomTodo(){
+    todoActions.createTodo(Date.now());
+  }
+
 
   render(){
     return (
       <div className="todo-component">
         <AddTodo updateTodo={this.addNewTodo.bind(this)}  />
-        
-        <button type="button" onClick={this.clearDone.bind(this)} className="btn btn-default">clear done</button>
 
+        <button type="button" onClick={this.clearDone.bind(this)} className="btn btn-default">clear done</button>
+        <button onClick={this.createRandomTodo.bind(this)}>Create Random todo</button>
         <List>
           {this.state.todos.map(function(item){
             return (
               <div key={item.id} className="clearfix">
-                <TodoItem 
-                  text={item.text} 
-                  todoId={item.id} 
+                <TodoItem
+                  text={item.text}
+                  todoId={item.id}
                   isDone={item.isDone}
                   changeStatus={this.changeStatus.bind(this)}
                   edit={this.saveReceivedChanges.bind(this)}

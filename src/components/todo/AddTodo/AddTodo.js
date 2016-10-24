@@ -5,7 +5,7 @@ export default class AddTodo extends Component {
   componentWillMount() {
     this.setState({
       text: 'Default'
-    })
+    });
   }
 
   logChange(e){
