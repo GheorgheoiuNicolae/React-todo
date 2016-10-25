@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { EventEmitter } from 'events';
 import dispatcher from '../dispatchers/dispatcher'
 
@@ -24,8 +25,6 @@ class TodoStore extends EventEmitter {
   }
 
   createTodo(text){
-
-    console.log('create todo fired', text)
     this.todos.push({
       text,
       isDone: false,
@@ -35,13 +34,27 @@ class TodoStore extends EventEmitter {
     this.emit("change");
   }
 
-  handleActions(action){
-    console.log('sadasd', action)
+  deleteTodo(id){
+    let tds = this.todos;
+    let item = _.find(tds,{ id: id});
+    let idx = tds.indexOf(item);
 
+    tds.splice(idx, 1);
+    this.todos = tds;
+    this.emit("change");
+  }
+
+  handleActions(action){
     switch(action.type){
       case 'CREATE_TODO': {
-        console.log('CREATE_TODO case: ', action)
-        this.createTodo(action.text)
+        this.createTodo(action.text);
+        break
+      }
+      case 'DELETE_TODO': {
+        this.deleteTodo(action.id);
+        break
+      }
+      default: {
       }
     }
   }

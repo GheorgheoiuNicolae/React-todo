@@ -1,6 +1,7 @@
 body {
   background-color: slategrey;
   color: #fff;
+  font-family: 'Helvetica';
 }
 .todo-component {
   max-width: 400px;

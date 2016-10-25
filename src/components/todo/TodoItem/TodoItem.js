@@ -4,6 +4,8 @@ import {ListItem} from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
+import * as todoActions from '../../../actions/actions';
+
 export default class TodoItem extends Component {
 
   componentWillMount() {
@@ -18,6 +20,10 @@ export default class TodoItem extends Component {
     this.setState({
       showEdit: temToggleState
     })
+  }
+
+  deleteTodo(){
+    todoActions.deleteTodo(this.props.todoId);
   }
 
   handleChange(e){
@@ -47,6 +53,7 @@ export default class TodoItem extends Component {
             <input type="checkbox" onChange={this.toggleTodoState.bind(this)} checked={ this.props.isDone || this.state.isDone} />
             <span className="">{this.props.text} </span>
             <RaisedButton className="" label="edit" onClick={this.editTodo.bind(this)} />
+            <RaisedButton className="" label="x" onClick={this.deleteTodo.bind(this)} />
           </div>
         }
       </ListItem>

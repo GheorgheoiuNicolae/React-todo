@@ -63,10 +63,10 @@ export default class Todo extends Component {
   }
 
   clearDone(){
-    let incomplete = _.filter(this.state.todos, {isDone: false});
-    this.setState({
-      todos: incomplete
-    })
+    let completed = _.filter(this.state.todos, {isDone: true});
+    for(let i = 0; i < completed.length; i++){
+      todoActions.deleteTodo(completed[i].id);
+    }
   }
 
   createRandomTodo(){
