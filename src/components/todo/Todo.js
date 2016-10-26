@@ -1,35 +1,26 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 
-// import MobileTearSheet from '../../../MobileTearSheet';
-import {List} from 'material-ui/List';
+import { List } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 
 import TodoItem from './TodoItem/TodoItem';
 import AddTodo from './AddTodo/AddTodo';
+import todoStore from '../../stores/TodoStore';
+import * as todoActions from '../../actions/actions';
 
 export default class Todo extends Component {
 
   componentWillMount() {
     this.setState({
-      todos: [{
-        text: 'Buy milk',
-        isDone: false,
-        id: 1
-      }, {
-        text: 'Buy meat!',
-        isDone: false,
-        id: 2
-      }, {
-        text: 'Buy something else!',
-        isDone: true,
-        id: 3
-      }]
-    })
-  }
+      todos: todoStore.getAll()
+    });
 
-  componentDidMount() {
-    console.log('componentDidMount todo.js', this.state);
+    todoStore.on("change", () => {
+      this.setState({
+        todos: todoStore.getAll()
+      });
+    })
   }
 
   addNewTodo(item){
@@ -49,7 +40,7 @@ export default class Todo extends Component {
       id: item.id,
       isDone: item.isDone
     }
-    
+
     this.setState({
       todos: todos
     })
@@ -72,10 +63,14 @@ export default class Todo extends Component {
   }
 
   clearDone(){
-    let incomplete = _.filter(this.state.todos, {isDone: false});
-    this.setState({
-      todos: incomplete
-    })
+    let completed = _.filter(this.state.todos, {isDone: true});
+    for(let i = 0; i < completed.length; i++){
+      todoActions.deleteTodo(completed[i].id);
+    }
+  }
+
+  createRandomTodo(){
+    todoActions.createTodo(Date.now());
   }
 
 
@@ -83,17 +78,16 @@ export default class Todo extends Component {
     return (
       <div className="todo-component">
         <AddTodo updateTodo={this.addNewTodo.bind(this)}  />
-        
-        <button type="button" onClick={this.clearDone.bind(this)} className="btn btn-default">clear done</button>
 
+        <button type="button" onClick={this.clearDone.bind(this)} className="btn btn-default">clear done</button>
+        <button onClick={this.createRandomTodo.bind(this)}>Create Random todo</button>
         <List>
           {this.state.todos.map(function(item){
-            console.log('item', item);
             return (
               <div key={item.id} className="clearfix">
-                <TodoItem 
-                  text={item.text} 
-                  todoId={item.id} 
+                <TodoItem
+                  text={item.text}
+                  todoId={item.id}
                   isDone={item.isDone}
                   changeStatus={this.changeStatus.bind(this)}
                   edit={this.saveReceivedChanges.bind(this)}
