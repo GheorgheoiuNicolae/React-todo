@@ -16,6 +16,7 @@ export default class AddTodo extends Component {
   }
 
   submitTodo(){
+    console.log('submit todo called');
     this.props.updateTodo(this.state.text)
     this.setState({
       text: ' '

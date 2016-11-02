@@ -19,7 +19,13 @@ export default class TodoItem extends Component {
     var temToggleState = !this.state.showEdit;
     this.setState({
       showEdit: temToggleState
-    })
+    });
+    let todo = {
+      id: this.props.todoId,
+      text: this.props.text,
+      isDone: this.state.isDone
+    }
+    todoActions.updateTodo(todo);
   }
 
   deleteTodo(){
@@ -36,7 +42,13 @@ export default class TodoItem extends Component {
   }
 
   toggleTodoState(){
-    this.props.changeStatus(this.props.todoId)
+    let item = {
+      id: this.props.todoId,
+      isDone: !this.props.isDone,
+      text: this.props.text
+    }
+    console.log('item', item, this.props);
+    todoActions.updateTodo(item);
   }
 
 
@@ -45,15 +57,15 @@ export default class TodoItem extends Component {
       <ListItem className="clearfix">
         { this.state.showEdit ?
          <div className="inputWrap">
-            <TextField className="" hintText="thing to do" value={this.props.text} onChange={this.handleChange.bind(this)} />
-            <RaisedButton className="" label="Save" onClick={this.editTodo.bind(this)} />
+            <TextField hintText="thing to do" value={this.props.text} onChange={this.handleChange.bind(this)} />
+            <RaisedButton label="Save" onClick={this.editTodo.bind(this)} />
          </div>
           :
           <div className="inputData">
             <input type="checkbox" onChange={this.toggleTodoState.bind(this)} checked={ this.props.isDone || this.state.isDone} />
-            <span className="">{this.props.text} </span>
-            <RaisedButton className="" label="edit" onClick={this.editTodo.bind(this)} />
-            <RaisedButton className="" label="x" onClick={this.deleteTodo.bind(this)} />
+            <span>{this.props.text} </span>
+            <RaisedButton label="edit" onClick={this.editTodo.bind(this)} />
+            <RaisedButton label="x" onClick={this.deleteTodo.bind(this)} />
           </div>
         }
       </ListItem>

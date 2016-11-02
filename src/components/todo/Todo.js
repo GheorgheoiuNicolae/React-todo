@@ -24,14 +24,12 @@ export default class Todo extends Component {
   }
 
   addNewTodo(item){
-    this.state.todos.push({text: item, isDone: false,  id: new Date().getTime() });
-    this.setState({
-      timestamp: new Date().getTime()
-    });
+    todoActions.createTodo(item)
   }
 
 
   saveReceivedChanges(item){
+    console.log('item', item);
     let todos = this.state.todos;
     let todoToChange = _.find(todos, {id: item.id});
     let idx = todos.indexOf(todoToChange);
@@ -41,22 +39,6 @@ export default class Todo extends Component {
       isDone: item.isDone
     }
 
-    this.setState({
-      todos: todos
-    })
-  }
-
-  changeStatus(item){
-    let todos = this.state.todos;
-    let todoToChange = _.find(todos, {id: item});
-    let idx = todos.indexOf(todoToChange);
-
-    todoToChange.isDone = !todoToChange.isDone;
-    todos[idx]= {
-      isDone: todoToChange.isDone,
-      id: todoToChange.id,
-      text: todoToChange.text
-    }
     this.setState({
       todos: todos
     })
@@ -89,7 +71,6 @@ export default class Todo extends Component {
                   text={item.text}
                   todoId={item.id}
                   isDone={item.isDone}
-                  changeStatus={this.changeStatus.bind(this)}
                   edit={this.saveReceivedChanges.bind(this)}
                 />
                 <Divider />

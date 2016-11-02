@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as todoActions from '../../actions/actions';
 
 export default class Title extends Component {
   constructor(){
@@ -8,7 +9,16 @@ export default class Title extends Component {
     }
   }
 
+  generateTodos(){
+    todoActions.createFirebaseData()
+  }
+
   render(){
-    return <h2>{this.state.name}</h2>
+    return (
+      <div>
+        <h2>{this.state.name}</h2>
+        <button onClick={this.generateTodos}>Generate todos</button>
+      </div>
+    )
   }
 }

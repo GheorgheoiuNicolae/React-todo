@@ -1,23 +1,11 @@
 import _ from 'lodash';
 import { EventEmitter } from 'events';
-import dispatcher from '../dispatchers/dispatcher'
+import dispatcher from '../dispatchers/dispatcher';
 
 class TodoStore extends EventEmitter {
   constructor() {
     super();
-    this.todos = [{
-      text: 'Buy milk',
-      isDone: false,
-      id: 1
-    }, {
-      text: 'Buy meat!',
-      isDone: false,
-      id: 2
-    }, {
-      text: 'Buy something else!',
-      isDone: true,
-      id: 3
-    }];
+    this.todos = [];
   }
 
   getAll() {
@@ -34,13 +22,32 @@ class TodoStore extends EventEmitter {
     this.emit("change");
   }
 
+  updateTodo(todo){
+    console.log('todo - ', todo);
+    let todos = this.todos;
+    let item = _.find(todos, { id: todo.item.id });
+    let idx = todos.indexOf(item);
+    todos[idx] = todo.item;
+
+    this.todos = todos;
+    this.emit("change");
+
+    console.log('found', item);
+  }
+
   deleteTodo(id){
     let tds = this.todos;
     let item = _.find(tds,{ id: id});
     let idx = tds.indexOf(item);
+    console.log('bla', id, tds, item, idx);
 
     tds.splice(idx, 1);
     this.todos = tds;
+    this.emit("change");
+  }
+
+  createListOfTodos(todos){
+    this.todos = todos;
     this.emit("change");
   }
 
@@ -51,9 +58,26 @@ class TodoStore extends EventEmitter {
         break
       }
       case 'DELETE_TODO': {
+        console.log('DELETE_TODO', action);
         this.deleteTodo(action.id);
         break
       }
+      case 'UPDATE_TODO': {
+        console.log('UPDATE_TODO', action);
+        this.updateTodo(action);
+        break
+      }
+      case 'REQUEST_TODOS': {
+        console.log('REQUEST_TODOS');
+        // this.deleteTodo(action.id);
+        break
+      }
+      case 'RECEIVED_TODOS': {
+        console.log('RECEIVED_TODOS', action);
+        this.createListOfTodos(action.todos);
+        break
+      }
+
       default: {
       }
     }
