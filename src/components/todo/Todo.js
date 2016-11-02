@@ -29,7 +29,6 @@ export default class Todo extends Component {
 
 
   saveReceivedChanges(item){
-    console.log('item', item);
     let todos = this.state.todos;
     let todoToChange = _.find(todos, {id: item.id});
     let idx = todos.indexOf(todoToChange);

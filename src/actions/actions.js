@@ -16,7 +16,6 @@ export function createTodo(text){
 }
 
 export function deleteTodo(id){
-  console.log('delete: ', id);
   db.todosRef.child(id).remove();
   db.todosRef.on('child_removed', function(snap){
     console.log('snap', snap.val());
@@ -29,7 +28,6 @@ export function deleteTodo(id){
 
 // use this to push new dummy data into Firebase
 export function createFirebaseData(){
-  console.log('createFirebaseData');
   for(var i = 0; i < 5; i++){
     db.todosRef.push({
       text: 'Todo ' + i,
@@ -63,5 +61,4 @@ export function getAllTodos(){
 export function updateTodo(item){
   db.todosRef.child(item.id).update(item);
   dispatcher.dispatch({type: 'UPDATE_TODO', item});
-  console.log('updateTodo', item);
 }

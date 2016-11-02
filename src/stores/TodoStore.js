@@ -23,7 +23,6 @@ class TodoStore extends EventEmitter {
   }
 
   updateTodo(todo){
-    console.log('todo - ', todo);
     let todos = this.todos;
     let item = _.find(todos, { id: todo.item.id });
     let idx = todos.indexOf(item);
@@ -31,8 +30,6 @@ class TodoStore extends EventEmitter {
 
     this.todos = todos;
     this.emit("change");
-
-    console.log('found', item);
   }
 
   deleteTodo(id){
@@ -58,12 +55,10 @@ class TodoStore extends EventEmitter {
         break
       }
       case 'DELETE_TODO': {
-        console.log('DELETE_TODO', action);
         this.deleteTodo(action.id);
         break
       }
       case 'UPDATE_TODO': {
-        console.log('UPDATE_TODO', action);
         this.updateTodo(action);
         break
       }
@@ -73,7 +68,6 @@ class TodoStore extends EventEmitter {
         break
       }
       case 'RECEIVED_TODOS': {
-        console.log('RECEIVED_TODOS', action);
         this.createListOfTodos(action.todos);
         break
       }

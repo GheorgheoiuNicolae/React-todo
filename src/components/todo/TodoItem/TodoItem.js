@@ -47,7 +47,6 @@ export default class TodoItem extends Component {
       isDone: !this.props.isDone,
       text: this.props.text
     }
-    console.log('item', item, this.props);
     todoActions.updateTodo(item);
   }
 
